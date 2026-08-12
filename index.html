@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>저스트 세라믹 레진 파일럿 FAQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple:       #8B5CF6;
+    --purple-light: #A78BFA;
+    --purple-deep:  #6D28D9;
+    --purple-bg:    rgba(139,92,246,0.08);
+    --dark:         #1A1A1A;
+    --dark2:        #242424;
+    --dark3:        #2E2E2E;
+    --white:        #FFFFFF;
+    --gray:         #F5F5F7;
+    --text:         #1A1A1A;
+    --muted:        #888888;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans KR',sans-serif; background:var(--gray); color:var(--text); display:flex; min-height:100vh; }
+
+  /* ── 사이드바 ── */
+  .sidebar {
+    width:260px; min-height:100vh; background:var(--dark);
+    position:fixed; top:0; left:0; bottom:0;
+    overflow-y:auto; display:flex; flex-direction:column; z-index:100;
+  }
+  .sidebar-logo { padding:24px 20px 18px; border-bottom:1px solid var(--dark3); }
+  .sidebar-logo .pill {
+    font-size:0.65rem; font-weight:700; color:var(--purple-light);
+    letter-spacing:1px; text-transform:uppercase; margin-bottom:8px;
+    display:inline-block; background:rgba(139,92,246,0.15);
+    padding:3px 10px; border-radius:20px;
+  }
+  .sidebar-logo h1 { font-size:0.92rem; font-weight:900; color:var(--white); line-height:1.5; }
+  .sidebar-search { padding:10px 14px; border-bottom:1px solid var(--dark3); }
+  .sidebar-search input {
+    width:100%; background:var(--dark3); border:none; border-radius:8px;
+    padding:8px 12px; color:var(--white); font-size:0.82rem;
+    font-family:inherit; outline:none;
+  }
+  .sidebar-search input::placeholder { color:#555; }
+  .nav-section { padding:14px 0 4px; }
+  .nav-label {
+    font-size:0.65rem; font-weight:700; color:var(--purple-light);
+    letter-spacing:0.8px; text-transform:uppercase; padding:0 20px 5px;
+    display:block;
+  }
+  .nav-item {
+    display:block; padding:6px 20px; color:#999;
+    text-decoration:none; font-size:0.82rem; transition:all 0.15s; cursor:pointer;
+  }
+  .nav-item:hover { color:var(--white); background:rgba(139,92,246,0.12); }
+  .nav-item.active { color:var(--purple-light); font-weight:700; }
+  .sidebar-footer {
+    margin-top:auto; padding:14px 20px;
+    border-top:1px solid var(--dark3); font-size:0.73rem; color:#555;
+  }
+  .sidebar::-webkit-scrollbar { width:3px; }
+  .sidebar::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
+
+  /* ── 메인 ── */
+  .main { margin-left:260px; flex:1; padding:48px 56px; max-width:940px; }
+
+  .page-header { margin-bottom:36px; }
+  .page-header .breadcrumb { font-size:0.76rem; color:var(--muted); margin-bottom:10px; }
+  .page-header h1 { font-size:1.85rem; font-weight:900; color:var(--text); margin-bottom:10px; }
+  .accent-bar { width:44px; height:4px; background:var(--purple); border-radius:2px; margin-bottom:14px; }
+  .page-header p { font-size:0.9rem; color:var(--muted); line-height:1.7; }
+  .update-badge {
+    display:inline-flex; align-items:center; gap:5px;
+    background:var(--purple-bg); color:var(--purple-deep);
+    font-size:0.73rem; font-weight:700; padding:4px 12px;
+    border-radius:20px; margin-top:10px;
+  }
+
+  /* 섹션 */
+  .section { margin-bottom:40px; }
+  .section-title {
+    font-size:1rem; font-weight:900; color:var(--text);
+    margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .section-title::before {
+    content:''; display:inline-block; width:5px; height:18px;
+    background:var(--purple); border-radius:3px; flex-shrink:0;
+  }
+
+  /* FAQ 카드 */
+  details {
+    background:var(--white); border:1px solid #E8E8E8;
+    border-radius:12px; margin-bottom:8px; overflow:hidden;
+    transition:border-color 0.2s, box-shadow 0.2s;
+  }
+  details:hover { border-color:var(--purple-light); box-shadow:0 4px 16px rgba(139,92,246,0.1); }
+  details[open] { border-color:var(--purple); box-shadow:0 4px 20px rgba(139,92,246,0.14); }
+  summary {
+    list-style:none; cursor:pointer; padding:16px 20px;
+    display:flex; align-items:center; gap:12px;
+    font-weight:700; font-size:0.93rem; color:var(--text); user-select:none;
+  }
+  summary::-webkit-details-marker { display:none; }
+  .qb {
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:26px; height:26px; background:var(--purple);
+    color:var(--white); border-radius:7px; font-size:0.78rem;
+    font-weight:900; flex-shrink:0;
+  }
+  details[open] .qb { background:var(--purple-deep); }
+  .ch { margin-left:auto; color:var(--purple); font-size:1.3rem; font-weight:300; transition:transform 0.2s; }
+  details[open] .ch { transform:rotate(45deg); }
+  .faq-body {
+    padding:8px 20px 18px 58px; font-size:0.9rem;
+    color:#444; line-height:1.85; border-top:1px solid #F0F0F0;
+  }
+  .faq-body p { margin-bottom:10px; }
+  .faq-body strong { color:var(--dark); }
+  .faq-body ul { padding-left:18px; margin:8px 0; }
+  .faq-body ul li { margin-bottom:5px; }
+  .faq-body ol { padding-left:18px; margin:8px 0; }
+  .faq-body ol li { margin-bottom:8px; }
+
+  /* 알림 박스 */
+  .notice {
+    background:var(--purple-bg); border-left:4px solid var(--purple);
+    border-radius:0 8px 8px 0; padding:11px 15px; margin:12px 0;
+    font-size:0.87rem; color:var(--purple-deep); font-weight:600;
+  }
+  .notice.warn { background:#FFF8E6; border-color:#F5A623; color:#7A5500; }
+  .notice.danger { background:#FFF0F0; border-color:#E53E3E; color:#7A1A1A; }
+
+  /* 태그 */
+  .tag {
+    display:inline-block; padding:2px 10px; border-radius:20px;
+    font-size:0.74rem; font-weight:700;
+  }
+  .tag-green { background:#E6F7F0; color:#1A7A5E; }
+  .tag-red   { background:#FFF0F0; color:#C0392B; }
+
+  /* 링크 */
+  .faq-body a { color:var(--purple); text-decoration:none; font-weight:600; }
+  .faq-body a:hover { text-decoration:underline; }
+  .link-row {
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--purple-bg); color:var(--purple-deep);
+    padding:6px 14px; border-radius:8px; font-size:0.85rem;
+    font-weight:700; text-decoration:none; margin-top:6px;
+  }
+  .link-row:hover { background:rgba(139,92,246,0.15); }
+
+  /* 스텝 박스 */
+  .step-box {
+    background:#FAFAFA; border:1px solid #EBEBEB; border-radius:10px;
+    padding:14px 16px; margin:10px 0;
+  }
+  .step-box .step-title {
+    font-weight:800; font-size:0.88rem; color:var(--dark);
+    margin-bottom:6px;
+  }
+  .step-box ul { padding-left:16px; }
+  .step-box ul li { font-size:0.87rem; margin-bottom:4px; color:#444; }
+
+  hr { border:none; border-top:1px solid #E5E5E5; margin:30px 0; }
+
+  @media (max-width:768px) {
+    .sidebar { display:none; }
+    .main { margin-left:0; padding:24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 사이드바 -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="pill">파일럿 매뉴얼</div>
+    <h1>🦷 저스트 세라믹 레진<br>파일럿 FAQ</h1>
+  </div>
+  <div class="sidebar-search">
+    <input type="text" placeholder="🔍  검색...">
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-label">1. 세라믹 파일럿</span>
+    <a class="nav-item" href="#sec1">지원가능 보철</a>
+    <a class="nav-item" href="#sec2">비용</a>
+    <a class="nav-item" href="#sec3">조건</a>
+    <a class="nav-item" href="#sec4">피드백 방법</a>
+  </div>
+  <div class="nav-section">
+    <span class="nav-label">2. 소재, 소모품</span>
+    <a class="nav-item" href="#sec5">레진 쉐이드</a>
+    <a class="nav-item" href="#sec6">빌드플레이트/수조</a>
+  </div>
+  <div class="nav-section">
+    <span class="nav-label">3. 출력물</span>
+    <a class="nav-item" href="#sec7">출력실패</a>
+    <a class="nav-item" href="#sec8">적합도</a>
+    <a class="nav-item" href="#sec9">제작시간</a>
+    <a class="nav-item" href="#sec10">강도</a>
+  </div>
+  <div class="nav-section">
+    <span class="nav-label">4. 표면처리</span>
+    <a class="nav-item" href="#sec11">글레이징/하이팔리싱</a>
+    <a class="nav-item" href="#sec12">스테인</a>
+  </div>
+  <div class="nav-section">
+    <span class="nav-label">5. 접착</span>
+    <a class="nav-item" href="#sec13">권장 방법</a>
+    <a class="nav-item" href="#sec14">보철별 권장 세멘</a>
+  </div>
+
+  <div class="sidebar-footer">
+    최종 업데이트: 2026-08-12<br>
+    문의: 백장미 수석 100rose@gloud.io
+  </div>
+</aside>
+
+<!-- 메인 콘텐츠 -->
+<main class="main">
+
+  <div class="page-header">
+    <div class="breadcrumb">저스트스캔 &rsaquo; 파일럿 매뉴얼 &rsaquo; 세라믹 레진 FAQ</div>
+    <h1>저스트 세라믹 레진 파일럿 FAQ</h1>
+    <div class="accent-bar"></div>
+    <p>세라믹 레진 파일럿 서비스 이용에 관한 자주 묻는 질문을 정리한 문서입니다.<br>
+    추가 문의는 담당자 백장미 수석(010-4143-2225 / 100rose@gloud.io)에게 연락해 주세요.</p>
+    <div class="update-badge">⏱ 최종 업데이트: 2026-08-12</div>
+  </div>
+
+  <!-- ===== 1. 세라믹 파일럿 ===== -->
+  <div class="section" id="sec1">
+    <div class="section-title">🦷 1. 세라믹 파일럿</div>
+
+    <details open>
+      <summary><span class="qb">Q</span>세라믹 레진으로 제작 가능한 보철 종류(적응증)는 어떻게 되나요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>세라믹 레진은 <strong>비니어, 인레이, 오버레이, 싱글 영구 크라운</strong> 제작을 정식 지원합니다.</p>
+        <p>파일럿 치과에 한해 다양한 가능성 검증을 위해 <strong>브릿지 케이스 출력</strong>도 제공하고 있습니다.</p>
+        <div class="notice warn">⚠️ 현재 출력 세팅이 싱글 보철에 최적화되어 있어 브릿지 제작 시 적합이 정확히 맞지 않을 수 있으며, 소재 물성상 <strong>브릿지 및 임플란트 케이스는 파절 위험이 있어 권장해 드리지 않습니다.</strong></div>
+      </div>
+    </details>
+
+    <details id="sec2">
+      <summary><span class="qb">Q</span>서비스 이용료/소모품 비용은 어떻게 되나요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>세라믹 제작에 관련된 <strong>모든 소모품과 서비스 비용은 조건부 무료</strong>(1-3 조건 참조)로 제공됩니다.</p>
+        <p>첫 서비스 시작/교육을 위한 방문 시 1차 제공되거나, 교육 후 치과로 일괄 배송됩니다.</p>
+      </div>
+    </details>
+
+    <details id="sec3">
+      <summary><span class="qb">Q</span>파일럿 서비스 이용 조건은 어떻게 되나요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>파일럿 서비스는 <strong>저스트스캔에서 선정한 치과 및 Pro Printer(프로 프린터)를 보유한 치과</strong>를 대상으로 진행됩니다.</p>
+        <p>이용을 위한 기본 조건은 <strong>임상 사진 데이터의 제공 및 공유</strong>입니다.</p>
+        <div class="notice danger">🚨 제공률 <strong>70% 미만</strong>일 경우 서비스가 중단되거나 비용이 발생할 수 있습니다.</div>
+        <p>8월 중순 저스트스캔 웹사이트에 '<strong>파일럿 케이스 피드백 공유</strong>' 기능이 오픈될 예정으로, 해당 시스템을 통해 임상 데이터를 공유해 주시게 됩니다.</p>
+        <div class="notice">💡 본 FAQ와 함께 <strong>파일럿 치과 전자계약서</strong>를 별도로 전달드릴 예정입니다. 세부 조건은 계약서 <strong>4번 항목</strong>을 참고해 주세요.</div>
+      </div>
+    </details>
+
+    <details id="sec4">
+      <summary><span class="qb">Q</span>피드백 제출 방법이 궁금합니다.<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>8월 중순 저스트스캔 웹사이트에 '<strong>파일럿 케이스 피드백 공유 기능</strong>'이 정식 추가될 예정입니다. 기능 오픈 이후에는 웹사이트를 통해 제출해 주시면 됩니다.</p>
+        <p>웹사이트 기능이 오픈되기 <strong>전까지</strong>는 아래 방법으로 전달해 주세요.</p>
+        <ul>
+          <li>케이스 채팅 이용</li>
+          <li>세라믹 보철 담당자: <strong>백장미 수석</strong></li>
+          <li>📞 010-4143-2225 &nbsp;|&nbsp; ✉️ 100rose@gloud.io</li>
+          <li>메일, 카카오톡, 문자 등 편하신 방법으로 임상 사진 및 피드백을 전달해 주세요.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <hr>
+
+  <!-- ===== 2. 소재, 소모품 ===== -->
+  <div class="section" id="sec5">
+    <div class="section-title">🧪 2. 소재, 소모품</div>
+
+    <details>
+      <summary><span class="qb">Q</span>세라믹 레진은 어떤 쉐이드로 제공되나요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>현재 양산되어 제공되는 기본 쉐이드는 <strong>Bleach</strong>와 <strong>A2</strong>입니다.</p>
+        <ul>
+          <li>세라믹 레진은 투명도가 높은 소재이므로, <strong>비니어 제작 시에는 Bleach</strong>를 권장합니다.</li>
+          <li><strong>크라운 및 인레이 제작 시에는 A2 쉐이드</strong>를 권장합니다.</li>
+        </ul>
+        <div class="notice">💡 오는 <strong>9월부터</strong>는 A1부터 A3.5까지 더욱 다양한 쉐이드가 추가 라인업으로 제공될 예정입니다. 특정 쉐이드가 필요하시면 담당자에게 연락해 주세요.</div>
+      </div>
+    </details>
+
+    <details id="sec6">
+      <summary><span class="qb">Q</span>세라믹 레진 출력 시 빌드플레이트와 수조는 어떻게 사용해야 하나요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <ul>
+          <li>세라믹 레진은 <strong>전용 타공형 빌드플레이트(화이트)</strong>를 사용해야 합니다.</li>
+          <li>수조는 기존과 동일하나 구분용 <strong>'세라믹 스티커'를 반드시 부착</strong>하여 사용하셔야 합니다.</li>
+        </ul>
+        <p>해당 소모품 2종은 파일럿 참가 치과에 <strong>무상으로 제공</strong>되며, 교육 시 직접 전달되거나 교육 완료 후 순차적으로 택배 발송됩니다.</p>
+        <p>추가 필요시 쇼핑몰에서 <strong>0원으로 주문</strong> 가능합니다.</p>
+        <div class="notice warn">⚠️ 세라믹 출력 건수와 소모품 주문 수량 간에 현격한 차이가 발생하는 경우, 정책상 <strong>유상 전환 처리</strong>될 수 있습니다. 반드시 세라믹 전용으로 적정 수량만 주문해 주세요.</div>
+      </div>
+    </details>
+  </div>
+
+  <hr>
+
+  <!-- ===== 3. 출력물 ===== -->
+  <div class="section" id="sec7">
+    <div class="section-title">🖨️ 3. 출력물</div>
+
+    <details>
+      <summary><span class="qb">Q</span>세라믹 레진 출력 시 간혹 출력이 실패하는 이유는 무엇인가요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>세라믹 레진은 세라믹 고유의 우수한 강도와 초고정밀도를 구현하는 <strong>하이엔드 보철 소재</strong>입니다. 따라서 기존 보철 출력 환경보다 한층 더 정교하고 최적화된 프린터 세팅이 요구됩니다.</p>
+        <div class="notice">💡 저스트스캔은 모든 치과에서 높은 퀄리티의 세라믹 보철을 출력하실 수 있도록 <strong>신규 프린터 교체(1순위 지원)</strong> 및 현장 긴급 최적화 점검을 진행 중입니다.<br><br>8월 3째주 내로 대상 치과의 장비 교체 및 전용 세팅을 완료하겠습니다.</div>
+      </div>
+    </details>
+
+    <details id="sec8">
+      <summary><span class="qb">Q</span>인레이 시적이 안 되거나 크라운 적합이 너무 타이트하게 나옵니다.<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>세라믹 레진 고유의 높은 미세 표현력으로 인해, <strong>프린터 환경에 따른 오차가 출력물에 그대로 반영</strong>될 수 있습니다.</p>
+        <p>세라믹레진 최적화 작업이 완료된 프린터 교체 및 긴급 조치를 통해 즉시 해결 가능한 부분이오니, 빠르게 조치해 드리겠습니다.</p>
+        <div class="notice warn">⚠️ 정식 제공 서비스가 아닌 <strong>브릿지 보철</strong>의 경우, 구조 특성상 팽창률 차이가 생겨 적합이 다를 수 있는 점 양해 부탁드립니다.</div>
+      </div>
+    </details>
+
+    <details id="sec9">
+      <summary><span class="qb">Q</span>세라믹 레진의 3D 프린팅 출력 시간은 얼마나 걸리나요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>기존 베이직 레진(임시치아, 인레이 등) 출력 시간과 <strong>유사하거나</strong>, 적용하는 서비스 타입에 따라 <strong>오히려 단축</strong>됩니다.</p>
+      </div>
+    </details>
+
+    <details id="sec10">
+      <summary><span class="qb">Q</span>세라믹 레진의 강도 및 물성은 믿고 사용할 만한 수준인가요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>네, 저스트 세라믹 레진은 세라믹 입자와 레진 매트릭스를 결합한 <strong>하이브리드 소재</strong>로 뛰어난 임상 물성을 자랑합니다.</p>
+        <div class="step-box">
+          <div class="step-title">📊 주요 물성</div>
+          <ul>
+            <li><strong>굴곡강도</strong> 150 MPa</li>
+            <li><strong>파괴인성</strong> 2.0 MPa·m<sup>0.5</sup> (E.max 수준) — 우수한 파절 저항성</li>
+            <li><strong>탄성계수</strong> 3.5 GPa — 자연치보다 낮아 저작 시 충격 흡수, 대합치 손상 예방</li>
+          </ul>
+        </div>
+        <p>특히 레진 매트릭스 구조 덕분에 <strong>복잡한 전처리 없이도 레진 시멘트와 우수한 친화성</strong>을 보입니다. 치아구조와 화학적·기계적으로 강력히 접착(Bonding)되어 실제 임상에서 수치 이상의 견고한 유지력과 내구성을 발휘합니다.</p>
+        <div class="notice">💡 ※ 2026년 말 공식 최종 수치 리포트 발송 예정</div>
+      </div>
+    </details>
+  </div>
+
+  <hr>
+
+  <!-- ===== 4. 표면처리 ===== -->
+  <div class="section" id="sec11">
+    <div class="section-title">✨ 4. 표면처리</div>
+
+    <details>
+      <summary><span class="qb">Q</span>세라믹 보철의 표면 광택 처리(글레이징/하이팔리싱)는 어떻게 하나요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>광택 작업은 <strong>하이팔리싱</strong> 또는 <strong>글레이징</strong> 방식으로 진행하실 수 있습니다. 술자의 숙련도에 따른 결과 차이를 줄이고 체어사이드 작업 시간을 단축하기 위해 <strong>글레이징 방식을 가장 추천</strong>드립니다.</p>
+
+        <div class="step-box">
+          <div class="step-title">🔮 글레이징 추천</div>
+          <ul>
+            <li><strong>야마킨(Yamakinn) 클리어</strong> 제품 권장 (하이덴탈 코리아 구매 가능)</li>
+            <li>파일럿 기간 동안 <strong>비니어 및 크라운 제작 시 자사에서 함께 제공</strong> (인레이 제외)</li>
+          </ul>
+        </div>
+
+        <div class="step-box">
+          <div class="step-title">💎 하이팔리싱 추천</div>
+          <ul>
+            <li><strong>이브(EVE)사 3D 프린팅 레진 폴리셔</strong>로 1차 작업</li>
+            <li>이후 <strong>염소 코튼</strong>으로 마무리</li>
+          </ul>
+        </div>
+
+        <a href="https://youtu.be/SNVptFAoChQ?si=w8tLqfhuTEDpQkH9" target="_blank" class="link-row">🎬 글레이징 방법 참고 영상 보기</a>
+        <div class="notice" style="margin-top:12px;">💡 더 좋은 광택 제품이나 노하우가 있으시면 피드백 페이지를 통해 자유롭게 공유해 주세요!</div>
+      </div>
+    </details>
+
+    <details id="sec12">
+      <summary><span class="qb">Q</span>세라믹 레진 보철에 스테인 적용이 가능한지 궁금합니다.<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>네, 가능합니다! 다만 원내에서 진행 시 <strong>섬세한 작업 기술</strong>이 요구되므로, 숙련된 테크닉이 필요할 수 있습니다.</p>
+        <p>추천 제품은 글레이징과 동일한 <strong>야마킨(Yamakinn) Nu:le coat 라인업</strong>입니다.</p>
+        <a href="https://youtu.be/SNVptFAoChQ?si=w8tLqfhuTEDpQkH9" target="_blank" class="link-row">🎬 스테인 작업 방법 참고 영상 보기</a>
+      </div>
+    </details>
+  </div>
+
+  <hr>
+
+  <!-- ===== 5. 접착 ===== -->
+  <div class="section" id="sec13">
+    <div class="section-title">🔗 5. 접착</div>
+
+    <details>
+      <summary><span class="qb">Q</span>저스트 세라믹 레진 보철의 접착(Bonding/Luting) 프로토콜은 어떻게 되나요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>저스트 세라믹 레진은 기존 세라믹 접착 방식과 유사하지만 <strong>과정이 훨씬 단순</strong>합니다. 레진 매트릭스 기반 소재 특성상, 기존 세라믹의 필수 단계였던 <strong>불산(HF) 산부식 및 실란(Silane) 도포 과정이 생략</strong>되며 본딩제만으로도 강력한 접착력을 발휘합니다.</p>
+
+        <div class="step-box">
+          <div class="step-title">① 보철물 전처리</div>
+          <ul>
+            <li>Al₂O₃ 50 μm, 1 bar 샌드블라스팅 (Air abrasion)</li>
+            <li>세척 및 건조 → 본딩제 도포</li>
+          </ul>
+        </div>
+        <div class="step-box">
+          <div class="step-title">② 치아 전처리</div>
+          <ul>
+            <li>인산 에칭 → 세척 및 건조</li>
+            <li>본딩제 도포 → 광중합</li>
+          </ul>
+        </div>
+        <div class="step-box">
+          <div class="step-title">③ 접착 (Luting)</div>
+          <ul>
+            <li>심미용 레진 시멘트를 보철물 내면에 도포 후 치아에 시적/접착</li>
+            <li>잉여 시멘트 제거 → 최종 광중합</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+
+    <details id="sec14">
+      <summary><span class="qb">Q</span>세라믹 레진 보철 접착 시 권장하는 레진 시멘트(Cement) 제품이 있나요?<span class="ch">+</span></summary>
+      <div class="faq-body">
+        <p>보철의 종류(비니어 vs 크라운/인레이)에 따라 아래 가이드를 참고해 주세요.</p>
+
+        <div class="step-box">
+          <div class="step-title">💎 비니어 (Veneer)</div>
+          <ul>
+            <li>높은 심미성과 강력한 접착력이 요구되므로 <strong>별도의 추천 시멘트 및 전용 접착 프로토콜</strong>을 권장합니다.</li>
+          </ul>
+          <a href="https://docs.google.com/document/d/1W39eTUkQAqC1Xhd9TNV6cgGuh_pggdQBK6H8ZfnEing/edit?usp=sharing" target="_blank" class="link-row" style="margin-top:8px;">📄 비니어 접착 프로토콜 및 추천 시멘트 가이드 보기</a>
+        </div>
+
+        <div class="step-box">
+          <div class="step-title">👑 크라운 &amp; 인레이 (Crown &amp; Inlay)</div>
+          <ul>
+            <li>기존에 원내에서 사용하시던 레진 시멘트를 <strong>동일하게 사용</strong>하시면 됩니다.</li>
+          </ul>
+        </div>
+
+        <div class="notice">💡 원장님께서 임상에서 사용 중이신 우수한 추천 시멘트가 있다면 <strong>피드백 페이지를 통해 자유롭게 공유</strong>해 주시면 큰 도움이 됩니다!</div>
+      </div>
+    </details>
+  </div>
+
+</main>
+
+<script>
+  // 사이드바 검색 기능
+  document.querySelector('.sidebar-search input').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('details').forEach(d => {
+      const text = d.textContent.toLowerCase();
+      d.style.display = (!q || text.includes(q)) ? '' : 'none';
+    });
+  });
+
+  // 사이드바 링크 클릭 시 해당 섹션으로 스크롤
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // 해당 details 열기
+          const det = target.querySelector('details') || target.closest('details');
+          if (det) det.open = true;
+        }
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>
